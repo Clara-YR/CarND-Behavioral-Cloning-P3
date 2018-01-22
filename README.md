@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/Loss.png "Loss Line Chart"
-[image2]: ./examples/placeholder.png "Grayscaling"
+[image2]: ./examples/2nd_loss.png "Loss ScreenShot"
 [image3]: ./examples/img_center.png "Center Recovery Image"
 [image4]: ./examples/img_left.png "Left Recovery Image"
 [image5]: ./examples/img_right.png "Right Recovery Image"
@@ -169,20 +169,25 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 
 I used __model.ipynb__ to train my model and save the final output in __model.h5__. Then I download __model.ipynb__ as __model.py__ and only kept cell [1], [9], [10], [11] and [15] in __model.py__.
 
+At the first time I the model.h5 trained by model.ipynb, but the outcome was not satisfactory. Therefore I collected more data and train my model via model.py, the outcome is as below:
+
+![alt text][image2]
+
 ###3. Run Autonomous Mode and Record Video
 
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```
 $ python drive.py model.h5
 ```
+See my outcome in __run1.mp4__.
 
 ---
 
 #Part 4: Quetions About this Project
 
 Q1: How to visualize the model architecture?
-Q2: My car will lose control after passing the bridge, how can I improve it?
-Q3: I don't undersand the code 
+
+Q2: I don't undersand the code 
 `ch, row, col = 3, 80, 320  # Trimmed image format` and `model.add(Lambda(lambda x: x/127.5 - 1.,
         input_shape=(ch, row, col),
         output_shape=(ch, row, col)))`
