@@ -15,8 +15,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
+[image0]: ./examples/model.png "Loss Line Chart"
 [image1]: ./examples/Loss.png "Loss Line Chart"
-[image2]: ./examples/2nd_loss.png "Loss ScreenShot"
+[image2]: ./examples/loss_screenshot.png "Loss ScreenShot"
 [image3]: ./examples/img_center.png "Center Recovery Image"
 [image4]: ./examples/img_left.png "Left Recovery Image"
 [image5]: ./examples/img_right.png "Right Recovery Image"
@@ -33,7 +34,7 @@ Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/4
 - Part 1: Files Submitted & Code Quality
 - Part 2: Data Collection and Preprocessing
 - Part 3: Model Architecture and Training Strategy
-- Part 4: Quetions About this Project
+- Part 4: Quetions & My Solutions for Project 3
 
 ---
 # Part 1: Files Submitted & Code Quality
@@ -48,6 +49,9 @@ My project includes the following files:
 * __model.h5__ -- containing a trained convolution neural network 
 * __README.md__ -- summarizing the results
 * __run1.mp4__ -- recording video in autonomous mode
+* __examples__ -- folder contains all the images displayed in the README
+* __REAND.pdf__ -- the pdf format of this REAMDME
+
 
 ### 2. Submission includes functional code
 
@@ -118,17 +122,17 @@ The overall strategy for deriving a model architecture was to imply a well built
 
 My first step was to use a convolution neural network model similar to the NVIDIA architecture. I thought this model might be appropriate because it is more powerful than LeNet.
 
-**avoid underfitting**
+**Avoid Underfitting**
 
 My strategy to avoid underfitting is to apply powerful CNN, which is NVIDIA architecture in this project, and collect enough data (more details in Part2: Data Collection and Preprocessing).  
 
-**avoid overfitting**
+**Avoid Overfitting**
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
 
 To combat the overfitting, I two dropout layers in my model architecture. 
 
-**parameter tune**
+**Parameter Tune**
 
 - batch size = 32
 
@@ -165,6 +169,10 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Dense_3             |  outputs 10|
 | Dense_4             |  outputs 1|
 
+Here is a visualization of the architecture:
+
+![alt text][image0]
+
 ###3. Train Model
 
 I used __model.ipynb__ to train my model and save the final output in __model.h5__. Then I download __model.ipynb__ as __model.py__ and only kept cell [1], [9], [10], [11] and [15] in __model.py__.
@@ -185,13 +193,41 @@ See my outcome in __run1.mp4__.
 
 #Part 4: Quetions About this Project
 
-Q1: How to visualize the model architecture?
+__Q1__: How to visualize the model architecture?
 
-Q2: I don't undersand the code 
-`ch, row, col = 3, 80, 320  # Trimmed image format` and `model.add(Lambda(lambda x: x/127.5 - 1.,
-        input_shape=(ch, row, col),
-        output_shape=(ch, row, col)))`
-in this [page](https://classroom.udacity.com/nanodegrees/nd013/parts/fbf77062-5703-404e-b60c-95b78b2f3f9e/modules/6df7ae49-c61c-4bb2-a23e-6527e69209ec/lessons/46a70500-493e-4057-a78e-b3075933709d/concepts/b602658e-8a68-44e5-9f0b-dfa746a0cc1a).
+__Solution1__:
+
+I use
+ 
+```
+from keras.utils import plot_model
+from keras.models import load_model
+
+plot_model(model, to_file='./examples/model.png')
+```
+to visualize my model architecture.
+
+__Q2__: Q2: My car will lose control after passing the bridge, how can I improve it? 
+
+__Solution2__:
+
+- _More Data_: I collected more turning driving examples. 
+
+- _Aligning the color spaces_: I order to align the color spaces the both __drive.py__ and __model.py__ I made changes in __model.py__ as the tabel below 
+
+| replace | with | to |
+|:--------:|:------:|:------:|
+|`cv2.imread()`|`PIL.Image.open()`| open or read image|
+|`cv2.save()`|`plt.savefig()`|save image|
+|`images.append(cv2.flip(image, 1))`|`images.append(np.fliplr(image))`|flip image|
+
+
+- _Normalization_: I changed my normalization from 
+`model.add(Lambda(lambda x: x/225.0 - 0.5, input_shape=(160, 320, 3)))` to 
+`
+model.add(Lambda(lambda x: x/127.5 - 1.0, input_shape=(160, 320, 3)))`. 
+
+Thus the data range changed from (-0.5, 0.5) to (-1.0, 1.0) and the loss would double for the same sample and model weights. I wonder whether double loss help the network to learn quickly with bigger learning rate.
 
 
 
