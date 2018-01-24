@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 
-import cv2
+from PIL import Image
 import numpy as np
 from sklearn.utils import shuffle
 
@@ -30,21 +30,21 @@ def generator(samples, batch_size=32):
             for batch_sample in batch_samples:
                 # 1. Using Multiple Cameras #
                 for i in range(3):
+                    # read image
                     name = './data/IMG/'+batch_sample[i].split('/')[-1]
-                    image = cv2.imread(name)
+                    image = np.array(Image.open(name))
+                    # read and modify angle
                     angle = float(batch_sample[3])
                     correction = 0.16
-                    # left_angle = center_angle + correction
                     if(i==1):
                         angle += correction
-                    # right_angle = center_angle - correction
                     elif(i==2):
                         angle -= correction
+
                     images.append(image)
                     angles.append(angle)
-
                     # 2. DATA AUGMENTATION #
-                    images.append(cv2.flip(image, 1))
+                    images.append(np.fliplr(image))
                     angles.append(angle*-1.0)
 
             # convert data to NumPy -- the format Keras requires
