@@ -1,4 +1,4 @@
-#**Behavioral Cloning** 
+# **Behavioral Cloning** 
 
 ---
 
@@ -74,9 +74,9 @@ Only track one was used to collecting and recording data. Training data was chos
 
 Only track one was used to collecting and record data.
 
-###2. Appropriate Training & Validation Data
+### 2. Appropriate Training & Validation Data
 
-####2.1 Using Multiple Cameras
+#### 2.1 Using Multiple Cameras
 
 Training data was chosen to capture good driving behavior and keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road.
 
@@ -88,7 +88,7 @@ Secondly, I recorded the vehicle recovering from the left side and right sides o
 ![alt text][image3]
 ![alt text][image5]
 
-####2.2 Data Augmentation
+#### 2.2 Data Augmentation
 
 Although I recorded both clockwise and counter-clockwise laps, the left turns in my data are still much more than the right turns, which could contribute to a left turn bias. 
 
@@ -97,7 +97,7 @@ Flipping images is an effective technique for helping with the left turn bias. F
 ![alt text][image6]
 ![alt text][image7]
 
-####2.3 Data Preprocessing
+#### 2.3 Data Preprocessing
 
 The data processing is actually carried out at the beginning of the model training.
 
@@ -105,7 +105,7 @@ The data processing is actually carried out at the beginning of the model traini
 
 - __Cripping Images__ -- A Cropping layer is used to crip 70 and 25 rows pixels from the top and the bottom of the images respectively. `model.add(Cropping2D(cropping=((70, 25),(0,0))))` 
 
-####2.4 Data Split
+#### 2.4 Data Split
 
 After the collection process, I had 51264 number of data points. 
 
@@ -173,7 +173,7 @@ Here is a visualization of the architecture:
 
 ![alt text][image0]
 
-###3. Train Model
+### 3. Train Model
 
 I used __model.ipynb__ to train my model and save the final output in __model.h5__. Then I download __model.ipynb__ as __model.py__ and only kept cell [1], [9], [10], [11] and [15] in __model.py__.
 
@@ -181,7 +181,7 @@ At the first time I the model.h5 trained by model.ipynb, but the outcome was not
 
 ![alt text][image2]
 
-###3. Run Autonomous Mode and Record Video
+### 4. Run Autonomous Mode and Record Video
 
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```
@@ -191,9 +191,9 @@ See my outcome in __run1.mp4__.
 
 ---
 
-#Part 4: Improvements According to Each Review
+# Part 4: Improvements According to Each Review
 
-####REVIEW 1
+#### REVIEW 1
 
 __Q1__: How to visualize the model architecture?
 
@@ -229,7 +229,7 @@ __Solution2__:
 `
 model.add(Lambda(lambda x: x/127.5 - 1.0, input_shape=(160, 320, 3)))`. 
 
-####REVIEW 2
+#### REVIEW 2
 
 - __Correction__ was changed from 0.2 to 0.16 (line 36 in model.py)
 
