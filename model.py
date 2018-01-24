@@ -66,7 +66,7 @@ from keras.layers.pooling import MaxPooling2D
 # NIVIDIA Architecture
 model = Sequential()
 # 3. DATA NORMALIZATION
-model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 3)))
+model.add(Lambda(lambda x: x/127.5 - 1.0, input_shape=(160, 320, 3)))
 # 4. CROPPING IMAGES
 model.add(Cropping2D(cropping=((70, 25),(0,0))))
 model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation="relu"))
